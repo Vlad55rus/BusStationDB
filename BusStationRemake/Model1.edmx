@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище BusStationModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="registr_number" Type="varchar" MaxLength="6" Nullable="false" />
+          <Property Name="bort_number" Type="int" Nullable="false" />
+          <Property Name="marka" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="chislo_mestt" Type="int" Nullable="false" />
+          <Property Name="voditel" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Marshrut">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="bilet_price" Type="money" Nullable="false" />
+          <Property Name="destination" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id_marshruta" Type="int" Nullable="false" />
+          <Property Name="id_bus" Type="int" Nullable="false" />
+          <Property Name="vremya_opravleniya" Type="time" Precision="7" Nullable="false" />
+          <Property Name="vremya_pribitiya" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="km_ot_omska" Type="float" Nullable="false" />
+          <Property Name="station_name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Station_from_marshrut">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id_stancii" Type="int" Nullable="false" />
+          <Property Name="id_marshruta" Type="int" Nullable="false" />
+          <Property Name="vremya_otpravleniya" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Bus">
+          <End Role="Bus" Type="Self.Bus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reis" Type="Self.Reis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reis">
+              <PropertyRef Name="id_bus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marshrut">
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Station_from_marshrut" Type="Self.Station_from_marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marshrut">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_from_marshrut">
+              <PropertyRef Name="id_marshruta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marshruta">
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reis" Type="Self.Reis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marshrut">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reis">
+              <PropertyRef Name="id_marshruta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staion">
+          <End Role="Station" Type="Self.Station" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Station_from_marshrut" Type="Self.Station_from_marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_from_marshrut">
+              <PropertyRef Name="id_stancii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BusStationModelContainer">
+          <EntitySet Name="Bus" EntityType="Self.Bus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marshrut" EntityType="Self.Marshrut" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reis" EntityType="Self.Reis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Station" EntityType="Self.Station" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Station_from_marshrut" EntityType="Self.Station_from_marshrut" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bus" Association="Self.FK_Bus">
+            <End Role="Bus" EntitySet="Bus" />
+            <End Role="Reis" EntitySet="Reis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marshrut" Association="Self.FK_Marshrut">
+            <End Role="Marshrut" EntitySet="Marshrut" />
+            <End Role="Station_from_marshrut" EntitySet="Station_from_marshrut" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marshruta" Association="Self.FK_Marshruta">
+            <End Role="Marshrut" EntitySet="Marshrut" />
+            <End Role="Reis" EntitySet="Reis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staion" Association="Self.FK_Staion">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_from_marshrut" EntitySet="Station_from_marshrut" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BusStationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="registr_number" Type="String" MaxLength="6" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="bort_number" Type="Int32" Nullable="false" />
+          <Property Name="marka" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="chislo_mestt" Type="Int32" Nullable="false" />
+          <Property Name="voditel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Reis" Relationship="Self.FK_Bus" FromRole="Bus" ToRole="Reis" />
+        </EntityType>
+        <EntityType Name="Marshrut">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="bilet_price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="destination" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Station_from_marshrut" Relationship="Self.FK_Marshrut" FromRole="Marshrut" ToRole="Station_from_marshrut" />
+          <NavigationProperty Name="Reis" Relationship="Self.FK_Marshruta" FromRole="Marshrut" ToRole="Reis" />
+        </EntityType>
+        <EntityType Name="Reis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id_marshruta" Type="Int32" Nullable="false" />
+          <Property Name="id_bus" Type="Int32" Nullable="false" />
+          <Property Name="vremya_opravleniya" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="vremya_pribitiya" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Bus" Relationship="Self.FK_Bus" FromRole="Reis" ToRole="Bus" />
+          <NavigationProperty Name="Marshrut" Relationship="Self.FK_Marshruta" FromRole="Reis" ToRole="Marshrut" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="km_ot_omska" Type="Double" Nullable="false" />
+          <Property Name="station_name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Station_from_marshrut" Relationship="Self.FK_Staion" FromRole="Station" ToRole="Station_from_marshrut" />
+        </EntityType>
+        <EntityType Name="Station_from_marshrut">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id_stancii" Type="Int32" Nullable="false" />
+          <Property Name="id_marshruta" Type="Int32" Nullable="false" />
+          <Property Name="vremya_otpravleniya" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Marshrut" Relationship="Self.FK_Marshrut" FromRole="Station_from_marshrut" ToRole="Marshrut" />
+          <NavigationProperty Name="Station" Relationship="Self.FK_Staion" FromRole="Station_from_marshrut" ToRole="Station" />
+        </EntityType>
+        <Association Name="FK_Bus">
+          <End Role="Bus" Type="Self.Bus" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reis" Type="Self.Reis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reis">
+              <PropertyRef Name="id_bus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marshrut">
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Station_from_marshrut" Type="Self.Station_from_marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marshrut">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_from_marshrut">
+              <PropertyRef Name="id_marshruta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marshruta">
+          <End Role="Marshrut" Type="Self.Marshrut" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reis" Type="Self.Reis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marshrut">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Reis">
+              <PropertyRef Name="id_marshruta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Staion">
+          <End Role="Station" Type="Self.Station" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Station_from_marshrut" Type="Self.Station_from_marshrut" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_from_marshrut">
+              <PropertyRef Name="id_stancii" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BusStationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bus" EntityType="Self.Bus" />
+          <EntitySet Name="Marshrut" EntityType="Self.Marshrut" />
+          <EntitySet Name="Reis" EntityType="Self.Reis" />
+          <EntitySet Name="Station" EntityType="Self.Station" />
+          <EntitySet Name="Station_from_marshrut" EntityType="Self.Station_from_marshrut" />
+          <AssociationSet Name="FK_Bus" Association="Self.FK_Bus">
+            <End Role="Bus" EntitySet="Bus" />
+            <End Role="Reis" EntitySet="Reis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marshrut" Association="Self.FK_Marshrut">
+            <End Role="Marshrut" EntitySet="Marshrut" />
+            <End Role="Station_from_marshrut" EntitySet="Station_from_marshrut" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marshruta" Association="Self.FK_Marshruta">
+            <End Role="Marshrut" EntitySet="Marshrut" />
+            <End Role="Reis" EntitySet="Reis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Staion" Association="Self.FK_Staion">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_from_marshrut" EntitySet="Station_from_marshrut" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BusStationModelContainer" CdmEntityContainer="BusStationEntities">
+          <EntitySetMapping Name="Bus">
+            <EntityTypeMapping TypeName="BusStationModel.Bus">
+              <MappingFragment StoreEntitySet="Bus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="registr_number" ColumnName="registr_number" />
+                <ScalarProperty Name="bort_number" ColumnName="bort_number" />
+                <ScalarProperty Name="marka" ColumnName="marka" />
+                <ScalarProperty Name="chislo_mestt" ColumnName="chislo_mestt" />
+                <ScalarProperty Name="voditel" ColumnName="voditel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marshrut">
+            <EntityTypeMapping TypeName="BusStationModel.Marshrut">
+              <MappingFragment StoreEntitySet="Marshrut">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="bilet_price" ColumnName="bilet_price" />
+                <ScalarProperty Name="destination" ColumnName="destination" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reis">
+            <EntityTypeMapping TypeName="BusStationModel.Reis">
+              <MappingFragment StoreEntitySet="Reis">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_marshruta" ColumnName="id_marshruta" />
+                <ScalarProperty Name="id_bus" ColumnName="id_bus" />
+                <ScalarProperty Name="vremya_opravleniya" ColumnName="vremya_opravleniya" />
+                <ScalarProperty Name="vremya_pribitiya" ColumnName="vremya_pribitiya" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Station">
+            <EntityTypeMapping TypeName="BusStationModel.Station">
+              <MappingFragment StoreEntitySet="Station">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="km_ot_omska" ColumnName="km_ot_omska" />
+                <ScalarProperty Name="station_name" ColumnName="station_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Station_from_marshrut">
+            <EntityTypeMapping TypeName="BusStationModel.Station_from_marshrut">
+              <MappingFragment StoreEntitySet="Station_from_marshrut">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_stancii" ColumnName="id_stancii" />
+                <ScalarProperty Name="id_marshruta" ColumnName="id_marshruta" />
+                <ScalarProperty Name="vremya_otpravleniya" ColumnName="vremya_otpravleniya" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

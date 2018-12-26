@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="20ff543c8c3c44dc965e6be12f658dc9" Name="Diagram1" ZoomLevel="73">
+        <EntityTypeShape EntityType="BusStationModel.Bus" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusStationModel.Marshrut" Width="1.5" PointX="5.875" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusStationModel.Reis" Width="1.5" PointX="3.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusStationModel.Station" Width="1.5" PointX="11.875" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BusStationModel.Station_from_marshrut" Width="1.5" PointX="8.375" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="BusStationModel.FK_Bus" ManuallyRouted="false" />
+        <AssociationConnector Association="BusStationModel.FK_Marshrut" ManuallyRouted="false" />
+        <AssociationConnector Association="BusStationModel.FK_Marshruta" ManuallyRouted="false" />
+        <AssociationConnector Association="BusStationModel.FK_Staion" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

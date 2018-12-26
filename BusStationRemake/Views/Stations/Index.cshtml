@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BusStationRemake.Station>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Станции</h2>
+
+<p>
+    @Html.ActionLink("Создать новую запись", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Расстояние от Омска(км)")
+        </th>
+        <th>
+            @Html.DisplayName("Название станции")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.km_ot_omska)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.station_name)
+        </td>
+        <td>
+            @Html.ActionLink("Изменить", "Edit", new { id = item.id }) |
+            @Html.ActionLink("Подробнее", "Details", new { id = item.id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.id })
+        </td>
+    </tr>
+}
+
+</table>

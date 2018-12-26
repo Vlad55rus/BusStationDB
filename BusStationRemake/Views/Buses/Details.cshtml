@@ -1,0 +1,58 @@
+﻿@model BusStationRemake.Bus
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Bus</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.registr_number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.registr_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bort_number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bort_number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.marka)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.marka)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.chislo_mestt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.chislo_mestt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.voditel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.voditel)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<BusStationRemake.Reis>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Рейсы</h2>
+
+<p>
+    @Html.ActionLink("Создать новую запись", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Время отправления")
+        </th>
+        <th>
+            @Html.DisplayName("Время прибытия")
+        </th>
+        <th>
+            @Html.DisplayName("Регистрационный номер")
+        </th>
+        <th>
+            @Html.DisplayName("Пункт назначения")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.vremya_opravleniya)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vremya_pribitiya)
+        </td>
+        <td>
+            @Html.ActionLink(item.Bus.registr_number, "Details", "Buses", new { id = item.Bus.id }, null)
+        </td>
+        <td>
+            @Html.ActionLink(item.Marshrut.destination, "Details", "Marshruts", new { id = item.Marshrut.id }, null)
+        </td>
+        <td>
+            @Html.ActionLink("Изменить", "Edit", new { id = item.id }) |
+            @Html.ActionLink("Подробнее", "Details", new { id = item.id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id = item.id })
+        </td>
+    </tr>
+}
+
+</table>
